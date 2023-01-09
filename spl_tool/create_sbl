@@ -11,7 +11,7 @@ args = parser.parse_args()
 with open(args.input, mode="rb") as file:
     data = file.read()
     size = len(data)
-    version = 1234
+    version = 0x01010101
     checksum = zlib.crc32(data)
     payload = struct.pack(
         f"<2s4x2s28xII2s2xI28x{size}s",
