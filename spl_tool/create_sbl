@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ref https://github.com/starfive-tech/Tools/issues/1
 import zlib
 import struct
 import argparse
@@ -11,13 +12,12 @@ args = parser.parse_args()
 with open(args.input, mode="rb") as file:
     data = file.read()
     size = len(data)
-    version = 0x01010101
     checksum = zlib.crc32(data)
     payload = struct.pack(
-        f"<2s4x2s28xII2s2xI28x{size}s",
+        f"<2s2xI28xII2s2xI28x{size}s",
         b"\x40\x02",
-        b"\x20\x00",
-        version,
+        0x200000, # SBL_BAK_OFFSET
+        0x01010001, # SBL_VER
         size,
         b"\x00\x04",
         checksum,
