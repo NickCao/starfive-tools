@@ -13,16 +13,22 @@ with open(args.input, mode="rb") as file:
     data = file.read()
     size = len(data)
     checksum = zlib.crc32(data)
-    payload = struct.pack(
-        f"<2s2xI28xII2s2xI28x{size}s",
+    common = struct.pack(
+        "<2s2xI24x",
         b"\x40\x02",
-        0x200000, # SBL_BAK_OFFSET
-        0x01010001, # SBL_VER
+        0x200000,  # SBL_BAK_OFFSET
+    )
+    padding = struct.pack("<16x")
+    header = struct.pack(
+        f"<4xII2s2xI28x",
+        0x01010001,  # SBL_VER
         size,
         b"\x00\x04",
         checksum,
-        data,
     )
 
 with open(args.output, "xb") as file:
-    file.write(payload)
+    file.write(common)
+    file.write(padding)
+    file.write(header)
+    file.write(data)
