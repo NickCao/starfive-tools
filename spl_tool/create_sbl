@@ -18,9 +18,9 @@ with open(args.input, mode="rb") as file:
         b"\x40\x02",
         0x200000,  # SBL_BAK_OFFSET
     )
-    padding = struct.pack("<16x")
+    padding = struct.pack("<608x")
     header = struct.pack(
-        f"<4xII2s2xI28x",
+        f"<4xII2s2xI364x",
         0x01010101,  # SBL_VER
         size,
         b"\x00\x04",
