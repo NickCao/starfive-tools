@@ -21,7 +21,7 @@ with open(args.input, mode="rb") as file:
     padding = struct.pack("<16x")
     header = struct.pack(
         f"<4xII2s2xI28x",
-        0x01010001,  # SBL_VER
+        0x01010101,  # SBL_VER
         size,
         b"\x00\x04",
         checksum,
